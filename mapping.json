@@ -1,0 +1,24 @@
+{
+
+    "ccv": ["artikelnummer#productnumber",
+                "active#active",
+                "ean#eannumber",
+                "Productnaam#name",
+                "Korte productomschrijvin#shortdescription",
+                "Dutch Description#description",
+                "Webshop Price#price",
+                "discount#discount",
+                "package_id#package_id",
+                "brand_id#brand_id",
+                "ean#eannumber",
+                "page_title#pagina titel",
+                "SEO alias Ned#alias",
+                "meta_description#meta ned",
+                "productmainphoto#productmainphoto",
+                "photo_size#photo_size", 
+
+    
+    
+            ]
+
+}

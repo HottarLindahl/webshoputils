@@ -1,3 +1,4 @@
+debug=true;
 const Ccvapi =require('./ccvapi');
 const imageToBase64 = require('image-to-base64');
 const fs = require('fs');
@@ -47,9 +48,9 @@ GetPicsList= () =>{
 
 UploadList= async(picslist) =>{
   for(let pic in picslist){
-    console.log('createphoto')
+    if(debug)console.log('createphoto')
     await api.CreatePhoto('781172393', picslist[pic]);
-    console.log(picslist[pic])
+    if(debug)console.log(picslist[pic])
   }
   
 }
@@ -67,13 +68,10 @@ CreatePicsList = async (picsFolder) =>{
             this.mainpic = files[file]
 
         }
-        console.log('nu')
         this.x = this.x +1;
         const resp = await imageToBase64(picsFolder + files[file] )
         this.doinsert(resp);
-        console.log('nu2')
     
-        
       
       }
 }
@@ -97,7 +95,7 @@ this.picslist= []; //RESET
       )
       .catch(
           (error) => {
-              console.log(error); // Logs an error if there was one
+              if(debug)console.log(error); // Logs an error if there was one
           }
       )
 

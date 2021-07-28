@@ -8,16 +8,16 @@ const filepath = './JSON_responses/'
 getAll = function(data){
   for (const key in data) {
     if (Object.hasOwnProperty.call(data, key)) {
-      console.log(key + " = " + data[key]);
+      if(debug)console.log(key + " = " + data[key]);
       
     }
   }
 }
 
 log = function(data){
-  console.log("---")
+  if(debug)console.log("---")
   
-  console.log(JSON.stringify(data))
+  if(debug)console.log(JSON.stringify(data))
   //getAll(data.data)
   //getAll(data.data.items[0])
 
@@ -58,7 +58,7 @@ class Api{
     await this.myClient.get(this.sUri)
   .then(response => 
     this._responseFunction(response.data), (error) => {
-      console.log(error.response.data);
+      if(debug)console.log(error.response.data);
       for (var n in error)
       {console.log(error[n])}
     });
@@ -68,7 +68,7 @@ class Api{
     DoPostRequest = async function(){
       let resp = await this.myClient.post(this.sUri,this.data)
       await this._responseFunction(resp.data)
-      console.log('donepostreq')
+      if(debug)console.log('donepostreq')
     }
 
 
@@ -76,7 +76,7 @@ class Api{
         await this.myClient.delete(this.sUri)
       .then(response => 
         this._responseFunction(response.data), (error) => {
-          console.log(JSON.stringify(error.response.data));
+          if(debug)console.log(JSON.stringify(error.response.data));
           for (var n in error)
         {console.log(error[n])}
         });
@@ -156,7 +156,7 @@ GetProductVariationsById= async (id) =>{
 
   CreateProduct= async (obj) =>{
       this._responseFunction=async function(data){
-      console.log(JSON.stringify(data));
+      if(debug)console.log(JSON.stringify(data));
     };
     
     this.SetupCall('/api/rest/v1/products','POST', obj)
@@ -167,7 +167,7 @@ GetProductVariationsById= async (id) =>{
 
   SetProductCategory = async (obj) =>{
     this._responseFunction= async function(data){
-    console.log(JSON.stringify(data));
+    if(debug)console.log(JSON.stringify(data));
   };
   
   this.SetupCall('/api/rest/v1/producttocategories','POST', obj)
@@ -188,7 +188,7 @@ await this.DoPostRequest();
 DeleteProduct = async (id) =>{
   this.currentId = id;
   this._responseFunction=async function(data){
-  console.log(JSON.stringify(data));
+  if(debug)console.log(JSON.stringify(data));
 };
 
 this.SetupCall('/api/rest/v1/products/'+this.currentId ,'DELETE')

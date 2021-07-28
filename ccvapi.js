@@ -66,14 +66,11 @@ class Api{
     }
 
     DoPostRequest = async function(){
-      await this.myClient.post(this.sUri,this.data)
-    .then(response => 
-      this._responseFunction(response.data), (error) => {
-        console.log(error.response.data);
-        for (var n in error)
-      {console.log(error[n])}
-      });
-      }
+      let resp = await this.myClient.post(this.sUri,this.data)
+      await this._responseFunction(resp.data)
+      console.log('donepostreq')
+    }
+
 
       DoDeleteRequest = async function(){
         await this.myClient.delete(this.sUri)
@@ -103,7 +100,7 @@ class Api{
 
 
   GetAllProducts= async () =>{
-    this._responseFunction=function(data){
+    this._responseFunction=async function(data){
       fs.writeFileSync(this.filepath + 'products.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/','GET')
@@ -115,7 +112,7 @@ class Api{
     
   GetProductById= async (id) =>{
     this.currentId = id;
-    this._responseFunction=function(data){
+    this._responseFunction=async function(data){
       fs.writeFileSync(this.filepath + 'products'+this.currentId+'.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/'+this.currentId,'GET')
@@ -150,7 +147,7 @@ class Api{
 
 GetProductVariationsById= async (id) =>{
     this.currentId = id;
-    this._responseFunction=function(data){
+    this._responseFunction=async function(data){
       fs.writeFileSync(this.filepath + 'productvariations'+this.currentId+'.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/'+this.currentId+'/productvariations','GET')
@@ -158,7 +155,7 @@ GetProductVariationsById= async (id) =>{
   }
 
   CreateProduct= async (obj) =>{
-      this._responseFunction=function(data){
+      this._responseFunction=async function(data){
       console.log(JSON.stringify(data));
     };
     
@@ -169,7 +166,7 @@ GetProductVariationsById= async (id) =>{
 
 
   SetProductCategory = async (obj) =>{
-    this._responseFunction=function(data){
+    this._responseFunction= async function(data){
     console.log(JSON.stringify(data));
   };
   
@@ -180,7 +177,7 @@ GetProductVariationsById= async (id) =>{
 
 CreatePhoto = async (id,obj) =>{
   this.currentId = id;
-  this._responseFunction=function(data){
+  this._responseFunction=async function(data){
   console.log(JSON.stringify(data));
 };
 this.SetupCall('/api/rest/v1/products/'+id+'/productphotos','POST', obj)
@@ -190,7 +187,7 @@ await this.DoPostRequest();
 
 DeleteProduct = async (id) =>{
   this.currentId = id;
-  this._responseFunction=function(data){
+  this._responseFunction=async function(data){
   console.log(JSON.stringify(data));
 };
 

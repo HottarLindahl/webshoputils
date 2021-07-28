@@ -1,12 +1,13 @@
 debug=true;
 const Ccvapi =require('./ccvapi');
 const PhotoUtils=require('./photoutils');
+const Import = require('./import');
 const picsFolder = './pics/';
 const fs = require('fs');
 
 const photoutils = new PhotoUtils.PhotoUtils();
 const api = new Ccvapi.Api('/api/rest/v1/products', "GET", "");
-
+const importer = new Import.Import();
 
 class Tests{
 
@@ -15,12 +16,15 @@ class Tests{
     }
 
     Basics = async () =>{
-        if(debug)console.log('api.GetAllProducts');
+        if(debug)console.log('import.Importcsv');
+        importer.Importcsv('importfiler/test.csv','')
+        if(debug)console.log('Done! \n');
+       /*  if(debug)console.log('api.GetAllProducts');
         await api.GetAllProducts()
         if(debug)console.log('Done! \n');
         if(debug)console.log('api.GetProductById');
         await api.GetProductById('781172393')
-        if(debug)console.log('Done! \n');
+        if(debug)console.log('Done! \n'); */
     }
 
 }//END CLASS

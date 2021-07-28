@@ -2,6 +2,7 @@ debug=true;
 RUNTESTS = true;
 const Tests = require('./tests')
 const Ccvapi = require('./ccvapi');
+const Import = require('./import');
 const PhotoUtils = require('./photoutils');
 const picsFolder = './pics/';
 const fs = require('fs');

@@ -4,6 +4,7 @@
                 "active#active",
                 "ean#eannumber",
                 "Productnaam#name",
+                "reference#mpnnumber"
                 "Korte productomschrijvin#shortdescription",
                 "Dutch Description#description",
                 "Webshop Price#price",
@@ -22,3 +23,9 @@
             ]
 
 }
+
+
+
+id: 780434124  boots
+
+id: 783145910 bälte

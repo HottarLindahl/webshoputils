@@ -17,8 +17,8 @@ class Import{
         csv.parseStream(stream,{ headers: true })
             .on('error', error => console.error(error))
             .on('data', row => {
-                //console.log(`ROW=${JSON.stringify(row)}`)
-                console.log(`EAN=${JSON.stringify(row.EAN)}`)
+                console.log(`ROW=${JSON.stringify(row)}`)
+                //console.log(`EAN=${JSON.stringify(row.EAN)}`)
             })
     .       on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
 

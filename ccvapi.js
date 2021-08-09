@@ -34,6 +34,8 @@ class Api{
     this.sUri = sUri;
     this.method = method;
     this.data = data;
+    if(fs.existsSync('./JSON_responses/attributemap.json'))
+    this.attributevaluemap = JSON.parse(fs.readFileSync('./JSON_responses/attributemap.json'));
   }
   
   //Private functions
@@ -52,7 +54,7 @@ class Api{
   responseFunction=function(data){log(data)};
   sPublicKey = apikey.public_key;
   sSecretKey = apikey.private_key;
-  
+  productid
 
   DoRequest = async function(){
     await this.myClient.get(this.sUri)
@@ -157,6 +159,7 @@ GetProductVariationsById= async (id) =>{
   CreateProduct= async (obj) =>{
       this._responseFunction=async function(data){
       if(debug)console.log(JSON.stringify(data));
+      this.productid = data.id;
     };
     
     this.SetupCall('/api/rest/v1/products','POST', obj)
@@ -181,6 +184,46 @@ CreatePhoto = async (id,obj) =>{
   console.log(JSON.stringify(data));
 };
 this.SetupCall('/api/rest/v1/products/'+id+'/productphotos','POST', obj)
+
+await this.DoPostRequest();
+}
+
+
+
+
+GetAttributeValueMapping = async (id) =>{
+
+  this.currentId = id;
+
+  if(!this.attributevaluemap){
+    this._responseFunction=async function(data){
+      this.attributevaluemap = data
+      fs.writeFileSync(this.filepath + 'attributemap.json', JSON.stringify(data));
+    };
+    this.SetupCall('/api/rest/v1/attributes/'+this.currentId + '/attributevalues','GET')
+    await this.DoRequest();
+  }
+
+  
+}
+
+GetAttributeValueId = (id) =>{
+
+  for (let n in this.attributevaluemap.items){
+    if(this.attributevaluemap.items[n].name == id){
+      return this.attributevaluemap.items[n].id
+    }
+  }
+  return null;
+}
+
+
+SetProductAttributeValue = async (prodid,attributeid) =>{
+  this._responseFunction=async function(data){
+  if(debug)console.log(JSON.stringify(data));
+};
+let obj = {"optionvalue":attributeid,"price":0};
+this.SetupCall('/api/rest/v1/products/'+prodid+'/productattributevalues','POST', obj)
 
 await this.DoPostRequest();
 }

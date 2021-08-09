@@ -1,6 +1,7 @@
 debug=true;
 RUNTESTS = true;
-const Tests = require('./tests')
+const Tests = require('./tests');
+const Product = require('./product');
 const Ccvapi = require('./ccvapi');
 const Import = require('./import');
 const PhotoUtils = require('./photoutils');
@@ -10,28 +11,11 @@ const fs = require('fs');
 const photoutils = new PhotoUtils.PhotoUtils();
 const api = new Ccvapi.Api('/api/rest/v1/products', "GET", "");
 const tests = new Tests.Tests();
+const product = new Product.Product();
 
 if(debug)console.log('Start')
 
-obj = {
-  "productnumber": "ZCAMEL-MB1935-ZCAMEL",
-  "active": false,
-  "name": "Mayura Boots 1935-C in Milanelo Zamora / Camel 3 Phyton- Spitse Cowboy Western Laarzen Schuine Hak Rechte Schacht Treklussen Goodyear Welted",
-  "shortdescription": "Spitse cowboy boots met Python wreef",
-  "description": "Een echte spitse, Mexicaanse stijl, western laars. Deze Cowboy laarzen zijn gemaakt van topkwaliteit rundleer met, als speciaal detail, echt koningspython leer op de wreef en hiel. Met een dubbele leren zool van Spaans rundleer. Handgemaakt door Mayura Boots schoenmakers met het beroemde Goodyear Welt System, dat de duurzaamheid van de laars en een uitstekend comfort garandeert.",
-  "price": 379.50,
-  "discount": 0,
-  "package_id": 80831,
-  "brand_id": 24510928,
-  "taxtariff": "normal",
-  "eannumber": "8435503722739",
-  "page_title": "Mayura Cowboy Boots 1935 bruin met camel pythonleer",
-  "alias":"Mayura-Boots-1935-C-MEX-Bruin-met-Camel-Python-Heren-Spitse-Cowboy-Laarzen",
-  "meta_description": "Zoek je cowboy en western laarzen?  Echt spitse cowboy laarzen met python op de wreef vindt je in onze webshop."
-}
-
-
-obj2={"product_id": 781127754, "category_id": 28511624}
+obj2={"product_id": 785355432, "category_id": 28511624}
 
 
 
@@ -43,8 +27,8 @@ async function main() {
     // await api.GetProductPhotos('781172393')
     // // await api.GetProductPhotosLinks('37878413')
     // //await api.GetProductVariationsById('37878413')
-    // //await api.CreateProduct(obj)
-    // //await api.SetProductCategory(obj2);
+    // //await api.CreateProduct(product.testobj)
+    //await api.SetProductCategory(obj2);
     // // await CreatePicsList();
     // // await picslist.forEach(async pic => {
 
@@ -54,8 +38,13 @@ async function main() {
     // let picslist =  photoutils.GetPicsList();
     // if(debug)console.log(JSON.stringify(picslist));
     // //await photoutils.UploadList(picslist);
-    if(RUNTESTS)await tests.Basics();
+    //if(RUNTESTS)await tests.Basics();
     //await api.DeleteProduct('781127754')
+    //await api.GetAttributeValueMapping(171911)
+    //if(debug)console.log(api.GetAttributeValueId(product.testobj2.size));
+    
+    
+    
     if(debug)console.log('Done --- Exit 0');
   }
 

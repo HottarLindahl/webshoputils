@@ -73,6 +73,12 @@ class Api{
       if(debug)console.log('donepostreq')
     }
 
+    DoPatchRequest = async function(){
+      let resp = await this.myClient.patch(this.sUri,this.data)
+      await this._responseFunction(resp.data)
+      if(debug)console.log('donepatchreq')
+    }
+
 
       DoDeleteRequest = async function(){
         await this.myClient.delete(this.sUri)
@@ -160,6 +166,7 @@ GetProductVariationsById= async (id) =>{
       this._responseFunction=async function(data){
       if(debug)console.log(JSON.stringify(data));
       this.productid = data.id;
+      this.productobj = data;
     };
     
     this.SetupCall('/api/rest/v1/products','POST', obj)
@@ -189,6 +196,47 @@ await this.DoPostRequest();
 }
 
 
+
+
+GetAttributeCombinations = async (id) =>{
+
+  this.currentId = id;
+
+  this._responseFunction=async function(data){
+    this.attributecombinations = data
+    fs.writeFileSync(this.filepath + 'attributecombinations.json', JSON.stringify(data));
+  }
+  this.SetupCall('/api/rest/v1/products/'+this.currentId+'/attributecombinations','GET')
+  await this.DoRequest();
+  
+}
+
+
+GetAttributeCombinationIdByValueName = (id) =>{
+
+  for (let n in this.attributecombinations.items){
+    for (let y in this.attributecombinations.items[n].combination){
+      if(this.attributecombinations.items[n].combination[y].attribute_value.name == id){
+        return this.attributecombinations.items[n].id
+      }
+    }
+  }
+  
+  
+}
+
+
+
+SetAttributeCombinationValues = async (id,obj) =>{
+  this._responseFunction=async function(data){
+  if(debug)console.log(JSON.stringify(data));
+  this.productid = data.id;
+};
+
+this.SetupCall('/api/rest/v1/attributecombinations/' + id,'PATCH', obj)
+
+await this.DoPatchRequest();
+}
 
 
 GetAttributeValueMapping = async (id) =>{

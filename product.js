@@ -3,16 +3,21 @@ debug=true;
 const Ccvapi = require('./ccvapi');
 
 const fs = require('fs');
-const csv = require('@fast-csv/parse');
 
+const api = new Ccvapi.Api('', "", "");
+const FILEPATH = './JSON_responses/'
 
 
 
 class Product{
 
-    productid
+    id
+    productobj
+    productchildren 
 
     constructor(productid) {
+
+        this.filepath = FILEPATH;
 
         this.testobj= {
             "productnumber": "ZCAMEL-MB1935-ZCAMEL",
@@ -69,13 +74,80 @@ class Product{
             "meta_description": "Zoek je cowboy en western laarzen?  Echt spitse cowboy laarzen met python op de wreef vindt je in onze webshop."
           }
 
+
+
+          this.AddChild({
+            "productnumber": "ZCAMEL-MB1935-ZCAMEL",
+            "active": false,
+            "name": "Mayura Boots 1935-C in Milanelo Zamora / Camel 3 Phyton- Spitse Cowboy Western Laarzen Schuine Hak Rechte Schacht Treklussen Goodyear Welted",
+            "shortdescription": "Spitse cowboy boots met Python wreef",
+            "description": "Een echte spitse, Mexicaanse stijl, western laars. Deze Cowboy laarzen zijn gemaakt van topkwaliteit rundleer met, als speciaal detail, echt koningspython leer op de wreef en hiel. Met een dubbele leren zool van Spaans rundleer. Handgemaakt door Mayura Boots schoenmakers met het beroemde Goodyear Welt System, dat de duurzaamheid van de laars en een uitstekend comfort garandeert.",
+            "price": 379.50,
+            "discount": 0,
+            "package_id": 80831,
+            "brand_id": 24510928,
+            "taxtariff": "normal",
+            "sku_number": "MB1935-ZCAMEL-40",
+            "size": "40",
+            "eannumber": "8435503722739",
+            "page_title": "Mayura Cowboy Boots 1935 bruin met camel pythonleer",
+            "alias":"Mayura-Boots-1935-C-MEX-Bruin-met-Camel-Python-Heren-Spitse-Cowboy-Laarzen",
+            "meta_description": "Zoek je cowboy en western laarzen?  Echt spitse cowboy laarzen met python op de wreef vindt je in onze webshop."
+          }
+)
+
+          this.AddChild({
+            "productnumber": "ZCAMEL-MB1935-ZCAMEL",
+            "active": false,
+            "name": "Mayura Boots 1935-C in Milanelo Zamora / Camel 3 Phyton- Spitse Cowboy Western Laarzen Schuine Hak Rechte Schacht Treklussen Goodyear Welted",
+            "shortdescription": "Spitse cowboy boots met Python wreef",
+            "description": "Een echte spitse, Mexicaanse stijl, western laars. Deze Cowboy laarzen zijn gemaakt van topkwaliteit rundleer met, als speciaal detail, echt koningspython leer op de wreef en hiel. Met een dubbele leren zool van Spaans rundleer. Handgemaakt door Mayura Boots schoenmakers met het beroemde Goodyear Welt System, dat de duurzaamheid van de laars en een uitstekend comfort garandeert.",
+            "price": 379.50,
+            "discount": 0,
+            "package_id": 80831,
+            "brand_id": 24510928,
+            "taxtariff": "normal",
+            "sku_number": "MB1935-ZCAMEL-41",
+            "size": "41",
+            "eannumber": "8435503722739",
+            "page_title": "Mayura Cowboy Boots 1935 bruin met camel pythonleer",
+            "alias":"Mayura-Boots-1935-C-MEX-Bruin-met-Camel-Python-Heren-Spitse-Cowboy-Laarzen",
+            "meta_description": "Zoek je cowboy en western laarzen?  Echt spitse cowboy laarzen met python op de wreef vindt je in onze webshop."
+          })
+
           this.productid = productid;
         
     }
 
     SetProductId = (id) =>{
-        this.productid=id;
+        this.id=id;
     }
+
+    SetProductFromFile = (file) =>{
+        this.productobj = JSON.parse(fs.readFileSync(this.filepath + file))
+        this.SetProductId(this.productobj.id)
+    }
+
+    SetProductFromShop = async (id) =>{
+        await api.GetProductById(id)
+        this.productobj = JSON.parse(fs.readFileSync(this.filepath + 'products'+id+'.json'))
+        this.SetProductId(this.productobj.id)
+    }
+
+    AddChild  = (child) =>{
+    if(this.children == undefined){
+        this.children = child
+    }else{
+        const firstArray = new Array(this.children)
+        const secondArray = child
+        const combined = firstArray.concat(secondArray)
+        
+            this.children = combined;
+        }
+    }
+    
+
+
 
 
     

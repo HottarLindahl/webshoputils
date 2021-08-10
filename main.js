@@ -4,6 +4,7 @@ const Tests = require('./tests');
 const Product = require('./product');
 const Ccvapi = require('./ccvapi');
 const Import = require('./import');
+const Controller = require('./controller');
 const PhotoUtils = require('./photoutils');
 const picsFolder = './pics/';
 const fs = require('fs');
@@ -12,7 +13,8 @@ const photoutils = new PhotoUtils.PhotoUtils();
 const api = new Ccvapi.Api('/api/rest/v1/products', "GET", "");
 const tests = new Tests.Tests();
 const product = new Product.Product();
-
+const importer = new Import.Import();
+const controller = new Controller.Controller();
 if(debug)console.log('Start')
 
 obj2={"product_id": 785383789, "category_id": 28511624}
@@ -31,7 +33,7 @@ async function main() {
     // // await api.GetProductPhotosLinks('37878413')
     // //await api.GetProductVariationsById('37878413')
     // //await api.CreateProduct(product.testobj)
-    await api.SetProductCategory(obj2);
+    //await api.SetProductCategory(obj2);
     // // await CreatePicsList();
     // // await picslist.forEach(async pic => {
 
@@ -49,6 +51,13 @@ async function main() {
     //await product.SetProductFromFile('products785383789.json')
     //await UpdateProductAttributes(product)
     //await UpdateComboValues(product)
+    
+    let test = await importer.Importcsv('importfiler/fewprods.csv','')
+    console.log(test)
+    console.log(importer.rows)
+    //controller.PrepareProducts(importer.rows)
+    
+    console.log('dsd')
 
   }
   catch (e) {
@@ -60,7 +69,7 @@ async function main() {
     
     
     if(debug)console.log('Done --- Exit 0');
-    
+
   }
 
 

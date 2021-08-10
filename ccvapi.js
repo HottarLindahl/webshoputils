@@ -40,7 +40,7 @@ class Api{
   
   //Private functions
 
-  _SetupCall = function(sUri="/api/rest/v1/", method="GET", data=''){
+  _SetupCall = (sUri="/api/rest/v1/", method="GET", data='')=>{
     if(data){
       this.data = JSON.stringify(data);
     }
@@ -51,7 +51,7 @@ class Api{
     this.sStringToHash = this.sPublicKey + '|'+this.method+'|' + this.sUri + '|'+ this.data +'|' + this.sTimeStamp;
   }
 
-  responseFunction=function(data){log(data)};
+  responseFunction=(data)=>{log(data)};
   sPublicKey = apikey.public_key;
   sSecretKey = apikey.private_key;
   productid

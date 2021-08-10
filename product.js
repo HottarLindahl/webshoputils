@@ -13,7 +13,7 @@ class Product{
 
     id
     productobj
-    productchildren 
+    children = []; 
 
     constructor(productid) {
 
@@ -128,6 +128,10 @@ class Product{
         this.SetProductId(this.productobj.id)
     }
 
+    SetProductFromObj = (obj) =>{
+      this.productobj = obj
+  }
+
     SetProductFromShop = async (id) =>{
         await api.GetProductById(id)
         this.productobj = JSON.parse(fs.readFileSync(this.filepath + 'products'+id+'.json'))
@@ -138,11 +142,10 @@ class Product{
     if(this.children == undefined){
         this.children = child
     }else{
-        const firstArray = new Array(this.children)
-        const secondArray = child
-        const combined = firstArray.concat(secondArray)
+        const childarray = this.children
+        childarray.push(child);
         
-            this.children = combined;
+            this.children = childarray;
         }
     }
     

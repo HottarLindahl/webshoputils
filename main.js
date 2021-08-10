@@ -1,5 +1,5 @@
 debug=true;
-RUNTESTS = true;
+RUNTESTS = false;
 const Tests = require('./tests');
 const Product = require('./product');
 const Ccvapi = require('./ccvapi');
@@ -23,7 +23,7 @@ obj2={"product_id": 785383789, "category_id": 28511624}
 
 
 
-async function main() {
+main = async ()=> {
     
     try {
 
@@ -43,7 +43,7 @@ async function main() {
     // let picslist =  photoutils.GetPicsList();
     // if(debug)console.log(JSON.stringify(picslist));
     // //await photoutils.UploadList(picslist);
-    //if(RUNTESTS)await tests.Basics();
+    
     //await api.DeleteProduct('781127754')
     //await api.GetAttributeValueMapping(171911)
     //if(debug)console.log(api.GetAttributeValueId(product.testobj2.size));
@@ -52,11 +52,11 @@ async function main() {
     //await UpdateProductAttributes(product)
     //await UpdateComboValues(product)
     
-    let test = await importer.Importcsv('importfiler/fewprods.csv','')
-    console.log(test)
-    console.log(importer.rows)
+    //let test = await importer.Importcsv('importfiler/fewprods.csv','')
+    //console.log(test)
+    //console.log(importer.rows)
     //controller.PrepareProducts(importer.rows)
-    
+    if(RUNTESTS)await tests.Basics();
     console.log('dsd')
 
   }

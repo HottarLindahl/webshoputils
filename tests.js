@@ -22,9 +22,9 @@ class Tests{
         if(debug)console.log('api.GetAllProducts');
         await api.GetAllProducts()
         if(debug)console.log('Done! \n');
-        // if(debug)console.log('api.GetProductById');
-        // await api.GetProductById('781172393')
-        // if(debug)console.log('Done! \n');
+        if(debug)console.log('api.GetProductById');
+        await api.GetProductById('785383789')
+        if(debug)console.log('Done! \n');
     }
 
     CreateAndUpdate = async () =>{

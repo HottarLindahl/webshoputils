@@ -5,7 +5,7 @@ const apikey = require('./api_key_prod.json')
 
 const filepath = './JSON_responses/' 
 
-getAll = function(data){
+getAll = (data)=>{
   for (const key in data) {
     if (Object.hasOwnProperty.call(data, key)) {
       if(debug)console.log(key + " = " + data[key]);
@@ -14,7 +14,7 @@ getAll = function(data){
   }
 }
 
-log = function(data){
+log = (data)=>{
   if(debug)console.log("---")
   
   if(debug)console.log(JSON.stringify(data))
@@ -56,7 +56,7 @@ class Api{
   sSecretKey = apikey.private_key;
   productid
 
-  DoRequest = async function(){
+  DoRequest = async ()=>{
     await this.myClient.get(this.sUri)
   .then(response => 
     this._responseFunction(response.data), (error) => {
@@ -67,20 +67,20 @@ class Api{
 
     }
 
-    DoPostRequest = async function(){
+    DoPostRequest = async ()=>{
       let resp = await this.myClient.post(this.sUri,this.data)
       await this._responseFunction(resp.data)
       if(debug)console.log('donepostreq')
     }
 
-    DoPatchRequest = async function(){
+    DoPatchRequest = async ()=>{
       let resp = await this.myClient.patch(this.sUri,this.data)
       await this._responseFunction(resp.data)
       if(debug)console.log('donepatchreq')
     }
 
 
-      DoDeleteRequest = async function(){
+      DoDeleteRequest = async ()=>{
         await this.myClient.delete(this.sUri)
       .then(response => 
         this._responseFunction(response.data), (error) => {
@@ -90,11 +90,11 @@ class Api{
         });
         }
 
-  GetHash = function(){
+  GetHash = ()=>{
     return CryptoJS.HmacSHA512(this.sStringToHash, this.sSecretKey)
   }
 
-  SetupCall = function(sUri, method, data){
+  SetupCall = (sUri, method, data)=>{
     this._SetupCall(sUri, method, data)
     this.myClient = axios.create({
       baseURL: "https://www.mooileer.nl",
@@ -108,7 +108,7 @@ class Api{
 
 
   GetAllProducts= async () =>{
-    this._responseFunction=async function(data){
+    this._responseFunction=async (data)=>{
       fs.writeFileSync(this.filepath + 'products.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/','GET')
@@ -120,7 +120,7 @@ class Api{
     
   GetProductById= async (id) =>{
     this.currentId = id;
-    this._responseFunction=async function(data){
+    this._responseFunction=async (data)=>{
       fs.writeFileSync(this.filepath + 'products'+this.currentId+'.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/'+this.currentId,'GET')
@@ -129,7 +129,7 @@ class Api{
 
   GetProductPhotos = async (id) =>{
     this.currentId = id;
-    this._responseFunction=function(data){
+    this._responseFunction=(data)=>{
       fs.writeFileSync(this.filepath + 'products'+this.currentId+'photos.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/'+this.currentId + '/productphotos','GET')
@@ -139,7 +139,7 @@ class Api{
 
   GetProductPhotosLinks = async (id) =>{
     this.currentId = id;
-    this._responseFunction=function(data){
+    this._responseFunction=(data)=>{
     let text='';
       for (let n in data.items){
         text = text + data.items[n].deeplink + '\n'
@@ -155,7 +155,7 @@ class Api{
 
 GetProductVariationsById= async (id) =>{
     this.currentId = id;
-    this._responseFunction=async function(data){
+    this._responseFunction=async (data)=>{
       fs.writeFileSync(this.filepath + 'productvariations'+this.currentId+'.json', JSON.stringify(data));
     };
     this.SetupCall('/api/rest/v1/products/'+this.currentId+'/productvariations','GET')
@@ -163,7 +163,7 @@ GetProductVariationsById= async (id) =>{
   }
 
   CreateProduct= async (obj) =>{
-      this._responseFunction=async function(data){
+      this._responseFunction=async (data)=>{
       if(debug)console.log(JSON.stringify(data));
       this.productid = data.id;
       this.productobj = data;
@@ -176,7 +176,7 @@ GetProductVariationsById= async (id) =>{
 
 
   SetProductCategory = async (obj) =>{
-    this._responseFunction= async function(data){
+    this._responseFunction= async (data)=>{
     if(debug)console.log(JSON.stringify(data));
   };
   
@@ -187,7 +187,7 @@ GetProductVariationsById= async (id) =>{
 
 CreatePhoto = async (id,obj) =>{
   this.currentId = id;
-  this._responseFunction=async function(data){
+  this._responseFunction=async (data)=>{
   console.log(JSON.stringify(data));
 };
 this.SetupCall('/api/rest/v1/products/'+id+'/productphotos','POST', obj)
@@ -202,7 +202,7 @@ GetAttributeCombinations = async (id) =>{
 
   this.currentId = id;
 
-  this._responseFunction=async function(data){
+  this._responseFunction=async (data)=>{
     this.attributecombinations = data
     fs.writeFileSync(this.filepath + 'attributecombinations.json', JSON.stringify(data));
   }
@@ -228,7 +228,7 @@ GetAttributeCombinationIdByValueName = (id) =>{
 
 
 SetAttributeCombinationValues = async (id,obj) =>{
-  this._responseFunction=async function(data){
+  this._responseFunction=async (data)=>{
   if(debug)console.log(JSON.stringify(data));
   this.productid = data.id;
 };
@@ -244,7 +244,7 @@ GetAttributeValueMapping = async (id) =>{
   this.currentId = id;
 
   if(!this.attributevaluemap){
-    this._responseFunction=async function(data){
+    this._responseFunction=async (data)=>{
       this.attributevaluemap = data
       fs.writeFileSync(this.filepath + 'attributemap.json', JSON.stringify(data));
     };
@@ -267,7 +267,7 @@ GetAttributeValueId = (id) =>{
 
 
 SetProductAttributeValue = async (prodid,attributeid) =>{
-  this._responseFunction=async function(data){
+  this._responseFunction=async (data)=>{
   if(debug)console.log(JSON.stringify(data));
 };
 let obj = {"optionvalue":attributeid,"price":0};
@@ -278,7 +278,7 @@ await this.DoPostRequest();
 
 DeleteProduct = async (id) =>{
   this.currentId = id;
-  this._responseFunction=async function(data){
+  this._responseFunction=async (data)=>{
   if(debug)console.log(JSON.stringify(data));
 };
 

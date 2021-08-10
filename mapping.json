@@ -3,29 +3,22 @@
     "ccv": ["artikelnummer#productnumber",
                 "active#active",
                 "ean#eannumber",
-                "Productnaam#name",
-                "reference#mpnnumber"
-                "Korte productomschrijvin#shortdescription",
-                "Dutch Description#description",
-                "Webshop Price#price",
+                "productnaam#name",
+                "reference#mpnnumber",
+                "korte productomschrijving#shortdescription",
+                "dutch description#description",
+                "webshop price#price",
                 "discount#discount",
                 "package_id#package_id",
                 "brand_id#brand_id",
                 "ean#eannumber",
-                "page_title#pagina titel",
-                "SEO alias Ned#alias",
-                "meta_description#meta ned",
+                "pagina titel#page_title",
+                "seo alias ned#alias",
+                "meta ned#meta_description",
                 "productmainphoto#productmainphoto",
-                "photo_size#photo_size", 
-
-    
-    
+                "photo_size#photo_size",
+                "sku#sku_number",
+                "size#size"
             ]
 
 }
-
-
-
-id: 780434124  boots
-
-id: 783145910 bälte

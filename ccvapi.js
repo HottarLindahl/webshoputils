@@ -41,8 +41,9 @@ class Api{
   //Private functions
 
   _SetupCall = (sUri="/api/rest/v1/", method="GET", data='')=>{
-    if(data){
-      this.data = JSON.stringify(data);
+    this.data = JSON.stringify(data);
+    if(this.data == '""'){
+      this.data = '';
     }
     this.filepath= filepath;
     this.sUri = sUri;

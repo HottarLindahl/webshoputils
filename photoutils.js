@@ -7,17 +7,18 @@ let x = 0;
 const api = new Ccvapi.Api('/api/rest/v1/products/37878375', "GET", "");
 class PhotoUtils{
 
+  picsFolder =''
+  files = [];
+  picurl ='';
+  picslist = [];
+  x = 0;
+  mainpic = "";
     constructor() {
         this.picsFolder = './pics/';
         this.x = 0;
         this.picslist=[];
     }
-picsFolder =''
-files = [];
-picurl ='';
-picslist = [];
-x = 0;
-mainpic = "";
+
 
 doinsert= async(response) => {
     if(this.mainpic != ''){
@@ -56,7 +57,7 @@ UploadList= async(picslist) =>{
 }
 
 
-CreatePicsList = async (picsFolder) =>{
+CreatePicsListFromFolder = async (picsFolder) =>{
     this.mainpic='';
     this.picslist= []; //RESET
     this.x = 0;
@@ -77,9 +78,36 @@ CreatePicsList = async (picsFolder) =>{
 }
 
 
+CreatePicsListFromFileList = async (pics) =>{
+  this.mainpic='';
+  this.picslist= []; //RESET
+  this.x = 0;
+  if(pics !==''){
+    pics = pics.split(',');
+
+
+    for(let pic in pics){
+        let tst = '' + pics[pic];
+        if(tst.indexOf("6")>-1){
+            this.mainpic = pics[pic]
+  
+        }
+        this.x = this.x +1;
+        let file = this.picsFolder + pics[pic]
+        const resp = await imageToBase64(file)
+        this.doinsert(resp);
+    
+      
+      }
+
+  }
+  
+}
+
+
 CreatePic = async (file, isMainPhoto) =>{
 this.picslist= []; //RESET
-    await imageToBase64(picsFolder + file ) // Path to the image
+    await imageToBase64(this.picsFolder + file ) // Path to the image
       .then(
           (response)=> {
               this.picslist.push(

@@ -45,6 +45,13 @@ class Import{
 
     }
 
+
+    ImportFile = async (file) =>{
+
+        this.rows = await this.Importcsv(file,'')
+
+    }
+
 }//END CLASS
 
 

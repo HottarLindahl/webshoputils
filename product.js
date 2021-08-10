@@ -13,6 +13,8 @@ class Product{
 
     id
     productobj
+    shopobj
+    importobj
     children = []; 
 
     constructor(productid) {
@@ -76,7 +78,7 @@ class Product{
 
 
 
-          this.AddChild({
+          /* this.AddChild({
             "productnumber": "ZCAMEL-MB1935-ZCAMEL",
             "active": false,
             "name": "Mayura Boots 1935-C in Milanelo Zamora / Camel 3 Phyton- Spitse Cowboy Western Laarzen Schuine Hak Rechte Schacht Treklussen Goodyear Welted",
@@ -114,7 +116,7 @@ class Product{
             "alias":"Mayura-Boots-1935-C-MEX-Bruin-met-Camel-Python-Heren-Spitse-Cowboy-Laarzen",
             "meta_description": "Zoek je cowboy en western laarzen?  Echt spitse cowboy laarzen met python op de wreef vindt je in onze webshop."
           })
-
+ */
           this.productid = productid;
         
     }
@@ -131,6 +133,10 @@ class Product{
     SetProductFromObj = (obj) =>{
       this.productobj = obj
   }
+
+    SetProductImportObj= (obj)=>{
+      this.importobj = obj
+    }
 
     SetProductFromShop = async (id) =>{
         await api.GetProductById(id)

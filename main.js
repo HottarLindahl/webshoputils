@@ -17,7 +17,6 @@ const importer = new Import.Import();
 const controller = new Controller.Controller();
 if(debug)console.log('Start')
 
-obj2={"product_id": 785383789, "category_id": 28511624}
 
 
 
@@ -33,7 +32,7 @@ main = async ()=> {
     // // await api.GetProductPhotosLinks('37878413')
     // //await api.GetProductVariationsById('37878413')
     // //await api.CreateProduct(product.testobj)
-    //await api.SetProductCategory(obj2);
+    
     // // await CreatePicsList();
     // // await picslist.forEach(async pic => {
 
@@ -52,10 +51,7 @@ main = async ()=> {
     //await UpdateProductAttributes(product)
     //await UpdateComboValues(product)
     
-    //let test = await importer.Importcsv('importfiler/fewprods.csv','')
-    //console.log(test)
-    //console.log(importer.rows)
-    //controller.PrepareProducts(importer.rows)
+    await ImportAndCreateFromFile('importfiler/fewprods.csv')
     if(RUNTESTS)await tests.Basics();
     console.log('dsd')
 
@@ -94,6 +90,50 @@ main = async ()=> {
       let attr_id = api.GetAttributeValueId(product.children[n].size);
       await api.SetProductAttributeValue(product.id,attr_id)
     }
+
+  }
+
+  ImportAndCreateFromFile = async (file) =>{
+
+    await importer.ImportFile(file);
+    let importproducts = controller.PrepareProductsImport(importer.rows)
+    let products = controller.PrepareProductsTranslated(importer.rows)
+    
+   
+    for(let n in products){
+      //CREATE
+      delete products[n].productobj.size //Only valid for children
+      delete products[n].productobj.sku_number ////Only valid for children
+      await api.CreateProduct(products[n].productobj)
+      products[n].id = api.productid;
+      //products[n].id = 785970746
+      products[n].shopobj = api.productobj;
+      products[n].SetProductImportObj(importproducts[n]);
+
+      await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
+      let picslist = photoutils.GetPicsList();
+      for(let y in picslist){
+        await api.CreatePhoto(products[n].id, picslist[y])
+      }
+         
+    
+     
+
+      //SET
+      await api.SetProductCategory({"product_id": products[n].id, "category_id": 28511624});
+      await UpdateProductAttributes(products[n])
+
+      //UPDATE
+
+      await UpdateComboValues(products[n])
+
+    }
+
+    
+
+
+
+    console.log('controller done')
 
   }
 

@@ -122,7 +122,8 @@ class Api{
   GetProductById= async (id) =>{
     this.currentId = id;
     this._responseFunction=async (data)=>{
-      fs.writeFileSync(this.filepath + 'products'+this.currentId+'.json', JSON.stringify(data));
+      //fs.writeFileSync(this.filepath + 'products'+this.currentId+'.json', JSON.stringify(data));
+      this.productobj=data;
     };
     this.SetupCall('/api/rest/v1/products/'+this.currentId,'GET')
     await this.DoRequest();

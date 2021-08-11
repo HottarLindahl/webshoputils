@@ -2,6 +2,9 @@ debug=true;
 
 const fs = require('fs');
 const Product = require('./product');
+const Ccvapi = require('./ccvapi');
+
+const api = new Ccvapi.Api('/api/rest/v1/products', "GET", "");
 
 
 
@@ -120,6 +123,17 @@ class Controller{
         return returnobj;
 
     }
+
+    SearchProduct = async (searchString) =>{
+        return new Promise(async (resolve,reject)=>{
+            await api.GetProductById(searchString);
+            const obj = api.productobj
+            resolve(obj)
+        })
+
+    }
+
+   
 
 }//END CLASS
 

@@ -106,7 +106,7 @@ class Controller{
             const csvattribname = this.StrLeft(map,'#')
 
             if(obj[csvattribname] !== undefined){
-                if(ccvattribname === 'price'){
+                if(ccvattribname === 'price' || ccvattribname === 'product_layout' || ccvattribname === 'size'|| ccvattribname === 'stock'){
                     returnobj[ccvattribname] = parseInt(obj[csvattribname])
                 }
                 else returnobj[ccvattribname] = obj[csvattribname];
@@ -119,6 +119,9 @@ class Controller{
         returnobj.brand_id=24510928;
         returnobj.discount=0;
         returnobj.taxtariff="normal";
+        returnobj.condition_id=910622; //Nieuw
+        returnobj.stockenabled=true;
+        
 
         return returnobj;
 

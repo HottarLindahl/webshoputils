@@ -53,10 +53,10 @@ class Api{
     this.sStringToHash = this.sPublicKey + '|'+this.method+'|' + this.sUri + '|'+ this.data +'|' + this.sTimeStamp;
   }
 
-  responseFunction=(data)=>{log(data)};
   sPublicKey = apikey.public_key;
   sSecretKey = apikey.private_key;
-  productid
+  productid;
+  propertygroupproperties;
 
   DoRequest = async ()=>{
     await this.myClient.get(this.sUri)
@@ -215,6 +215,44 @@ GetAttributeCombinations = async (id) =>{
 }
 
 
+GetProductPropertyGroupProperties = async (id) =>{
+  this.currentId = id;
+  this._responseFunction=async (data)=>{
+    this.propertygroupproperties = data.items
+  }
+  this.SetupCall('/api/rest/v1/productpropertygroups/'+this.currentId+'/productproperties/','GET')
+  await this.DoRequest();
+}
+
+  
+
+PatchProductPropertyValue = async (id,obj) =>{
+  this._responseFunction=async (data)=>{
+  if(debug)console.log(JSON.stringify(data));
+};
+
+this.SetupCall('/api/rest/v1/productpropertyvalues/' + id,'PATCH', obj)
+
+await this.DoPatchRequest();
+}
+
+SetProductPropertyValue = async (prodid,propid,value) =>{
+const obj = {product_id:prodid,product_property_id:propid,value:value}
+
+  this._responseFunction= async (data)=>{
+  if(debug)console.log(JSON.stringify(data));
+};
+
+this.SetupCall('/api/rest/v1/productpropertyvalues/','POST', obj)
+
+
+await this.DoPostRequest();
+}
+
+
+
+
+
 GetAttributeCombinationIdByValueName = (id) =>{
 
   for (let n in this.attributecombinations.items){
@@ -275,6 +313,16 @@ SetProductAttributeValue = async (prodid,attributeid) =>{
 };
 let obj = {"optionvalue":attributeid,"price":0};
 this.SetupCall('/api/rest/v1/products/'+prodid+'/productattributevalues','POST', obj)
+
+await this.DoPostRequest();
+}
+
+SetProductPropertyGroup = async (prodid,groupid) =>{
+  this._responseFunction=async (data)=>{
+  if(debug)console.log(JSON.stringify(data));
+};
+const obj = {product_id: prodid,product_property_group_id:groupid}
+this.SetupCall('/api/rest/v1/producttopropertygroups','POST', obj)
 
 await this.DoPostRequest();
 }

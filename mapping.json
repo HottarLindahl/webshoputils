@@ -2,7 +2,6 @@
 
     "ccv": ["artikelnummer#productnumber",
                 "active#active",
-                "ean#eannumber",
                 "productnaam#name",
                 "reference#mpnnumber",
                 "korte productomschrijving#shortdescription",
@@ -18,7 +17,17 @@
                 "productmainphoto#productmainphoto",
                 "photo_size#photo_size",
                 "sku#sku_number",
-                "size#size"
+                "size#size",
+                "unit#unit",
+                "hoofdcatogrie#maincategory",
+                "sub cat1#subcategory",
+                "pagina titel#page_title",
+                "product_layout#product_layout",
+                "show_order_button#show_order_button",
+                "hide_without_category#hide_without_category",
+                "stock_delivery_standard#stock_delivery_standard",
+                "stocktype#stocktype",
+                "stock#stock"
             ]
 
 }

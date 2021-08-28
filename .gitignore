@@ -5,3 +5,10 @@ JSON_responses/products37878413photos.json
 importfiler/**
 node_modules/**
 node_modules/.bin/concurrently
+package-lock.json
+package.json
+JSON_responses/products.json
+package-lock.json
+package.json
+.vscode/settings.json
+JSON_responses/products.json

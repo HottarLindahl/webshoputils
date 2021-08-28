@@ -50,8 +50,9 @@ main = async ()=> {
     //await product.SetProductFromFile('products785383789.json')
     //await UpdateProductAttributes(product)
     //await UpdateComboValues(product)
-    
-    await ImportAndCreateFromFile('importfiler/fewprods.csv')
+    //const obj={id:791359794, product_property_group_id:38187}
+    //await UpdateProductProperties(obj)
+    await ImportAndCreateFromFile('importfiler/fewprodsnew.csv')
     if(RUNTESTS)await tests.Basics();
     console.log('dsd')
 
@@ -77,11 +78,12 @@ main = async ()=> {
     
     for(let n in product.children){
       let comboid = api.GetAttributeCombinationIdByValueName(product.children[n].size);
-      let comboval = {sku_number:product.children[n].sku_number};
+      let comboval = {sku_number:product.children[n].sku_number,ean_number:product.children[n].eannumber,stock:product.children[n].stock};
       await api.SetAttributeCombinationValues(comboid,comboval)
     }
 
   }
+
 
   UpdateProductAttributes = async (product) =>{
 
@@ -93,6 +95,29 @@ main = async ()=> {
 
   }
 
+  UpdateProductProperties = async (product) =>{
+    product.product_property_group_id=38187;
+    await api.SetProductPropertyGroup(product.id, product.product_property_group_id)
+    await api.GetProductPropertyGroupProperties(product.product_property_group_id)
+    let proplist = new Array();
+
+    for(let n in api.propertygroupproperties){
+      for(let y in product.importobj.productobj){
+        let a = "" + api.propertygroupproperties[n].name
+        if( a.toLowerCase() == y){
+          proplist.push({id:api.propertygroupproperties[n].id, value:product.importobj.productobj[y]})
+        }
+      }
+    }
+
+    for(let n in proplist){
+      await api.SetProductPropertyValue(product.id,proplist[n].id,proplist[n].value)
+    }
+  
+  }
+
+  
+
   ImportAndCreateFromFile = async (file) =>{
 
     await importer.ImportFile(file);
@@ -101,12 +126,14 @@ main = async ()=> {
     
    
     for(let n in products){
-      //CREATE
+      //SETUP
       delete products[n].productobj.size //Only valid for children
       delete products[n].productobj.sku_number ////Only valid for children
+      delete products[n].productobj.stock ////Only valid for children
+      products[n].importobj = importproducts[n]
+      //CREATE
       await api.CreateProduct(products[n].productobj)
       products[n].id = api.productid;
-      //products[n].id = 785970746
       products[n].shopobj = api.productobj;
       products[n].SetProductImportObj(importproducts[n]);
 
@@ -126,6 +153,8 @@ main = async ()=> {
       //UPDATE
 
       await UpdateComboValues(products[n])
+
+      await UpdateProductProperties(products[n])
 
     }
 

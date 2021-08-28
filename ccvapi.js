@@ -1,7 +1,6 @@
 const axios = require('axios').default;
 const CryptoJS = require('crypto-js');
 const fs = require('fs');
-
 const apikey = require('./api_key_prod.json')
 
 const filepath = './JSON_responses/' 

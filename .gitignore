@@ -3,3 +3,5 @@ api_key_prod.json
 pics/**
 JSON_responses/products37878413photos.json
 importfiler/**
+node_modules/**
+node_modules/.bin/concurrently

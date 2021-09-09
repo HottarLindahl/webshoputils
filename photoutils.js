@@ -65,7 +65,7 @@ CreatePicsListFromFolder = async (picsFolder) =>{
 
     for(let file in files){
         let tst = '' + files[file];
-        if(tst.indexOf("6")>-1){
+        if(tst.indexOf("06")>-1){
             this.mainpic = files[file]
 
         }
@@ -75,6 +75,30 @@ CreatePicsListFromFolder = async (picsFolder) =>{
     
       
       }
+}
+
+CreatePicsListFromPattern = async (pattern) =>{
+  this.mainpic='';
+  this.picslist= []; //RESET
+  this.x = 0;
+  const files = fs.readdirSync(this.picsFolder);
+
+  for(let file in files){
+      let tst = '' + files[file];
+      if(tst.indexOf(pattern)>-1){
+        if(tst.indexOf("06")>-1){
+          this.mainpic = files[file]
+
+      }
+      this.x = this.x +1;
+      const resp = await imageToBase64(this.picsFolder + files[file] )
+      this.doinsert(resp);
+
+    }
+      
+  
+    
+    }
 }
 
 

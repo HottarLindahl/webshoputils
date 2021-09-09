@@ -27,7 +27,16 @@
                 "hide_without_category#hide_without_category",
                 "stock_delivery_standard#stock_delivery_standard",
                 "stocktype#stocktype",
-                "stock#stock"
+                "stock#stock",
+                "price buy#purchaseprice"
+            ],
+    "en":   ["short product descr. english#shortdescription",
+                "productnaam english#name",
+                " english description#description",
+                "page title#page_title",
+                "seo alias eng#alias",
+                "meta eng#meta_description",
+                "maincatogory#maincategory",
+                "sub cat#subcategory"
             ]
-
 }

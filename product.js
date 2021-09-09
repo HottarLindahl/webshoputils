@@ -134,6 +134,10 @@ class Product{
       this.productobj = obj
   }
 
+  SetProductEnObj = (obj) =>{
+    this.enobj = obj
+}
+
     SetProductImportObj= (obj)=>{
       this.importobj = obj
     }

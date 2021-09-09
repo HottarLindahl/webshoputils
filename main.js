@@ -95,6 +95,17 @@ main = async ()=> {
 
   }
 
+  UpdateExtraLanguage = async (product) =>{
+
+    let translated = controller.TranslateFieldsEnglish(product.importobj.productobj)
+    product.SetProductEnObj(translated)
+    // make patch call header english
+    api.language = "en";
+    await api.PatchProductLanguageFields(product.id, product.enobj);
+    
+
+  }
+
   UpdateProductProperties = async (product) =>{
     product.product_property_group_id=38187;
     await api.SetProductPropertyGroup(product.id, product.product_property_group_id)
@@ -122,7 +133,7 @@ main = async ()=> {
 
     await importer.ImportFile(file);
     let importproducts = controller.PrepareProductsImport(importer.rows)
-    let products = controller.PrepareProductsTranslated(importer.rows)
+    let products = controller.PrepareProductsTranslated(importer.rows,'ccv')
     
    
     for(let n in products){
@@ -137,7 +148,9 @@ main = async ()=> {
       products[n].shopobj = api.productobj;
       products[n].SetProductImportObj(importproducts[n]);
 
-      await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
+      
+      await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
+      //await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
       let picslist = photoutils.GetPicsList();
       for(let y in picslist){
         await api.CreatePhoto(products[n].id, picslist[y])
@@ -155,6 +168,8 @@ main = async ()=> {
       await UpdateComboValues(products[n])
 
       await UpdateProductProperties(products[n])
+
+      await UpdateExtraLanguage(products[n])
 
     }
 

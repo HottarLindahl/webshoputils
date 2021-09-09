@@ -26,10 +26,16 @@ class Controller{
         return string.substr(string.indexOf(separator)+1,string.length );
     }
 
-    PrepareProductsTranslated= (importrows) =>{
+    PrepareProductsTranslated= (importrows,translatetype) =>{
         let products = [];
         let mainprod = false;
         let firstloop = true;
+        let callfunction;
+        
+        if (translatetype == "ccv")
+        callfunction = this.TranslateFieldsCCV;
+        else if(translatetype == "en")
+        callfunction = this.TranslateFieldsEnglish;
 
         for(let n in importrows){
 
@@ -43,11 +49,11 @@ class Controller{
                 mainprod = true;
                 this.currentproduct = new Product.Product();
                 //TODO ADD FIELD MAPPER
-                let translated = this.TranslateFieldsCCV(importrows[n])
+                let translated = callfunction(importrows[n])
                 this.currentproduct.SetProductFromObj(translated)
             }else{
                 mainprod = false;
-                let translated = this.TranslateFieldsCCV(importrows[n])
+                let translated = callfunction(importrows[n])
                 this.currentproduct.AddChild(translated)
             }
 
@@ -119,6 +125,37 @@ class Controller{
         returnobj.brand_id=24510928;
         returnobj.discount=0;
         returnobj.taxtariff="normal";
+        returnobj.condition_id=910622; //Nieuw
+        returnobj.stockenabled=true;
+        
+
+        return returnobj;
+
+    }
+
+
+    TranslateFieldsEnglish = (obj) =>{
+        let returnobj = {};
+
+        for (let n in this.mapping.en) {
+            const map = this.mapping.en[n];
+            const ccvattribname = this.StrRight(map,'#');
+            const csvattribname = this.StrLeft(map,'#')
+
+            if(obj[csvattribname] !== undefined){
+                if(ccvattribname === 'price' || ccvattribname === 'product_layout' || ccvattribname === 'size'|| ccvattribname === 'stock'){
+                    returnobj[ccvattribname] = parseInt(obj[csvattribname])
+                }
+                else returnobj[ccvattribname] = obj[csvattribname];
+            }
+
+            
+        }
+        //returnobj.active = false;
+        returnobj.package_id= 80831;
+        returnobj.brand_id=24510928;
+        //returnobj.discount=0;
+        //returnobj.taxtariff="normal";
         returnobj.condition_id=910622; //Nieuw
         returnobj.stockenabled=true;
         

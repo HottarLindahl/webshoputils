@@ -2,7 +2,7 @@ const axios = require('axios').default;
 const CryptoJS = require('crypto-js');
 const fs = require('fs');
 const apikey = require('./api_key_prod.json')
-
+debug=true;
 const filepath = './JSON_responses/' 
 
 getAll = (data)=>{
@@ -52,6 +52,7 @@ class Api{
     this.sStringToHash = this.sPublicKey + '|'+this.method+'|' + this.sUri + '|'+ this.data +'|' + this.sTimeStamp;
   }
 
+  language = "nl"
   sPublicKey = apikey.public_key;
   sSecretKey = apikey.private_key;
   productid;
@@ -102,7 +103,8 @@ class Api{
       headers: {
         'x-date': this.sTimeStamp,
         'x-hash': this.GetHash(),
-        'x-public': this.sPublicKey
+        'x-public': this.sPublicKey,
+        'Accept-Language': this.language
       }
     })
   }
@@ -231,6 +233,16 @@ PatchProductPropertyValue = async (id,obj) =>{
 };
 
 this.SetupCall('/api/rest/v1/productpropertyvalues/' + id,'PATCH', obj)
+
+await this.DoPatchRequest();
+}
+
+PatchProductLanguageFields = async (id,obj) =>{
+  this._responseFunction=async (data)=>{
+  if(debug)console.log(JSON.stringify(data));
+};
+
+this.SetupCall('/api/rest/v1/products/' + id,'PATCH', obj)
 
 await this.DoPatchRequest();
 }

@@ -18,6 +18,15 @@
         {
             "type": "pwa-node",
             "request": "launch",
+            "name": "Launch movepics",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\movepics.js"
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
             "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"

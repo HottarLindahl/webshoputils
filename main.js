@@ -44,7 +44,7 @@ main = async ()=> {
     // //await photoutils.UploadList(picslist);
     
     //await api.DeleteProduct('781127754')
-    //await api.GetAttributeValueMapping(171911)
+    //await api.GetAttributeValueMapping(6003696)
     //if(debug)console.log(api.GetAttributeValueId(product.testobj2.size));
     //await product.SetProductFromShop(785383789)
     //await product.SetProductFromFile('products785383789.json')
@@ -53,7 +53,7 @@ main = async ()=> {
     //const obj={id:791359794, product_property_group_id:38187}
     //await UpdateProductProperties(obj)
     if(RUNTESTS)await tests.Basics();
-    await ImportAndCreateFromFile('importfiler/Mayura_Stock_COLLATED - BELTS.csv')
+    await ImportAndCreateFromFile('./importfiler/belts1.csv')
     
     console.log('dsd')
 
@@ -125,7 +125,8 @@ main = async ()=> {
   }
 
   UpdateProductProperties = async (product) =>{
-    product.product_property_group_id=38187;
+    product.product_property_group_id=38187; //Maat
+    //product.product_property_group_id=6003640; //Kies de juiste maat 
     await api.SetProductPropertyGroup(product.id, product.product_property_group_id)
     await api.GetProductPropertyGroupProperties(product.product_property_group_id)
     let proplist = new Array();
@@ -174,18 +175,19 @@ main = async ()=> {
       products[n].importobj = importproducts[n]
       let categories  = products[n].importobj.productobj.category_id.split(";");
       //CREATE
+      api.language = "nl";
       await api.CreateProduct(products[n].productobj)
       products[n].id = api.productid;
       products[n].shopobj = api.productobj;
       products[n].SetProductImportObj(importproducts[n]);
 
       
-      //await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
+      await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
       //await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
       let picslist = photoutils.GetPicsList();
-      // for(let y in picslist){
-      //   await api.CreatePhoto(products[n].id, picslist[y])
-      // }
+      for(let y in picslist){
+        await api.CreatePhoto(products[n].id, picslist[y])
+      }
          
     
      

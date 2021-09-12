@@ -89,6 +89,8 @@ CreatePicsListFromPattern = async (pattern) =>{
         if(tst.indexOf("06")>-1){
           this.mainpic = files[file]
 
+      }else if(tst.indexOf("6.")>-1){
+        this.mainpic = files[file]
       }
       this.x = this.x +1;
       const resp = await imageToBase64(this.picsFolder + files[file] )

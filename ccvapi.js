@@ -324,7 +324,9 @@ GetAttributeValueMapping = async (id) =>{
 GetAttributeValueId = (id) =>{
 
   for (let n in this.attributevaluemap.items){
-    if(this.attributevaluemap.items[n].name == id){
+    let test = '' + this.attributevaluemap.items[n].name
+    id = '' + id
+    if(test.toLowerCase() == id.toLowerCase()){
       return this.attributevaluemap.items[n].id
     }
   }

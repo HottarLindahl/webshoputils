@@ -112,7 +112,7 @@ class Controller{
             const csvattribname = this.StrLeft(map,'#')
 
             if(obj[csvattribname] !== undefined){
-                if(ccvattribname === 'product_layout' || ccvattribname === 'size'|| ccvattribname === 'stock'){
+                if(ccvattribname === 'product_layout' || ccvattribname === 'stock'){
                     returnobj[ccvattribname] = parseInt(obj[csvattribname])
                 }
                 else returnobj[ccvattribname] = obj[csvattribname];
@@ -143,7 +143,7 @@ class Controller{
             const csvattribname = this.StrLeft(map,'#')
 
             if(obj[csvattribname] !== undefined){
-                if(ccvattribname === 'price' || ccvattribname === 'product_layout' || ccvattribname === 'size'|| ccvattribname === 'stock'){
+                if(ccvattribname === 'price' || ccvattribname === 'product_layout' || ccvattribname === 'stock'){
                     returnobj[ccvattribname] = parseInt(obj[csvattribname])
                 }
                 else returnobj[ccvattribname] = obj[csvattribname];

@@ -28,7 +28,7 @@
                 "stock_delivery_standard_nl#stock_delivery_standard",
                 "stocktype#stocktype",
                 "stock#stock",
-                "PRICE Buy#purchaseprice"
+                "purchaseprice#purchaseprice"
             ],
     "en":   ["short_descr_en#shortdescription",
                 "product_name_en#name",

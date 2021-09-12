@@ -39,13 +39,13 @@ class Controller{
 
         for(let n in importrows){
 
-            if(!mainprod && !firstloop && importrows[n].artikelnummer != ''){
+            if(!mainprod && !firstloop && importrows[n].product_number_ccv != ''){
 
                 products.push(this.currentproduct)//add products from last loop
             }
 
 
-            if(!mainprod && importrows[n].artikelnummer != ''){
+            if(!mainprod && importrows[n].product_number_ccv != ''){
                 mainprod = true;
                 this.currentproduct = new Product.Product();
                 //TODO ADD FIELD MAPPER
@@ -75,13 +75,13 @@ class Controller{
 
         for(let n in importrows){
 
-            if(!mainprod && !firstloop && importrows[n].artikelnummer != ''){
+            if(!mainprod && !firstloop && importrows[n].product_number_ccv != ''){
 
                 products.push(this.currentproduct)//add products from last loop
             }
 
 
-            if(!mainprod && importrows[n].artikelnummer != ''){
+            if(!mainprod && importrows[n].product_number_ccv != ''){
                 mainprod = true;
                 this.currentproduct = new Product.Product();                
                 this.currentproduct.SetProductFromObj(importrows[n])
@@ -112,7 +112,7 @@ class Controller{
             const csvattribname = this.StrLeft(map,'#')
 
             if(obj[csvattribname] !== undefined){
-                if(ccvattribname === 'price' || ccvattribname === 'product_layout' || ccvattribname === 'size'|| ccvattribname === 'stock'){
+                if(ccvattribname === 'product_layout' || ccvattribname === 'size'|| ccvattribname === 'stock'){
                     returnobj[ccvattribname] = parseInt(obj[csvattribname])
                 }
                 else returnobj[ccvattribname] = obj[csvattribname];

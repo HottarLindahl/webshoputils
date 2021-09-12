@@ -42,8 +42,7 @@ var walk = function(dir, done) {
   });
 };
 
-const basepath = 'M:\\Erikjobb\\Mayura\\Photos\\'
-const newpath = 'new/path/file.txt'
+const basepath = 'M:\\Photos Belts\\'
 
 walk(basepath, function(err, results) {
     if (err) throw err;

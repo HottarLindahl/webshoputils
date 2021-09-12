@@ -21,7 +21,7 @@ class Tests{
         // if(debug)console.log('Done! \n');
         
         if(debug)console.log('api.GetProductById');
-        await api.GetProductById('785982548')
+        await api.GetProductById('795956538')
         if(debug)console.log('Done! \n');
         if(debug)console.log('api.GetAllProducts');
         await api.GetAllProducts()

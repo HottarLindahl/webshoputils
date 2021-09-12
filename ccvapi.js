@@ -261,6 +261,20 @@ await this.DoPostRequest();
 }
 
 
+PatchProductPropertyValue = async (prodid,propid,value) =>{
+  const obj = {"value":value}
+  
+    this._responseFunction= async (data)=>{
+    if(debug)console.log(JSON.stringify(data));
+  };
+  
+  this.SetupCall('/api/rest/v1/productpropertyvalues/'+ propid,'PATCH', obj)
+  
+  
+  await this.DoPatchRequest();
+  }
+
+
 
 
 

@@ -52,8 +52,9 @@ main = async ()=> {
     //await UpdateComboValues(product)
     //const obj={id:791359794, product_property_group_id:38187}
     //await UpdateProductProperties(obj)
-    await ImportAndCreateFromFile('importfiler/fewprodsnew.csv')
     if(RUNTESTS)await tests.Basics();
+    await ImportAndCreateFromFile('importfiler/Mayura_Stock_COLLATED - BELTS.csv')
+    
     console.log('dsd')
 
   }
@@ -102,7 +103,24 @@ main = async ()=> {
     // make patch call header english
     api.language = "en";
     await api.PatchProductLanguageFields(product.id, product.enobj);
-    
+    /* api.language = "en";
+    await api.GetProductPropertyGroupProperties(product.product_property_group_id)
+    let proplist = new Array();
+
+    for(let n in api.propertygroupproperties){
+      for(let y in product.importobj.productobj){
+        let a = "" + api.propertygroupproperties[n].name
+        let check = y.toLowerCase()
+        if( a.toLowerCase() == check){
+          proplist.push({id:api.propertygroupproperties[n].id, value:product.importobj.productobj[y]})
+        }
+      }
+    }
+
+    for(let n in proplist){
+      await api.PatchProductPropertyValue(product.id,proplist[n].id,proplist[n].value)
+    }
+     */
 
   }
 
@@ -115,7 +133,8 @@ main = async ()=> {
     for(let n in api.propertygroupproperties){
       for(let y in product.importobj.productobj){
         let a = "" + api.propertygroupproperties[n].name
-        if( a.toLowerCase() == y){
+        let check = y.toLowerCase()
+        if( a.toLowerCase() == check){
           proplist.push({id:api.propertygroupproperties[n].id, value:product.importobj.productobj[y]})
         }
       }
@@ -127,6 +146,16 @@ main = async ()=> {
   
   }
 
+  ObjToLower = (obj) =>{
+    let key, keys = Object.keys(obj);
+    let n = keys.length;
+    let newobj={}
+    while (n--) {
+      key = keys[n];
+      newobj[key.toLowerCase()] = obj[key];
+      }
+    }
+    
   
 
   ImportAndCreateFromFile = async (file) =>{
@@ -141,7 +170,9 @@ main = async ()=> {
       delete products[n].productobj.size //Only valid for children
       delete products[n].productobj.sku_number ////Only valid for children
       delete products[n].productobj.stock ////Only valid for children
+      
       products[n].importobj = importproducts[n]
+      let categories  = products[n].importobj.productobj.category_id.split(";");
       //CREATE
       await api.CreateProduct(products[n].productobj)
       products[n].id = api.productid;
@@ -149,18 +180,24 @@ main = async ()=> {
       products[n].SetProductImportObj(importproducts[n]);
 
       
-      await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
+      //await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
       //await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
       let picslist = photoutils.GetPicsList();
-      for(let y in picslist){
-        await api.CreatePhoto(products[n].id, picslist[y])
-      }
+      // for(let y in picslist){
+      //   await api.CreatePhoto(products[n].id, picslist[y])
+      // }
          
     
      
 
       //SET
-      await api.SetProductCategory({"product_id": products[n].id, "category_id": 28511624});
+      
+      for (let x in categories){
+        await api.SetProductCategory({"position": parseInt(x),"product_id": products[n].id, "category_id": parseInt(categories[x])});
+      }
+      
+      
+      
       await UpdateProductAttributes(products[n])
 
       //UPDATE

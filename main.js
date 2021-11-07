@@ -27,7 +27,7 @@ main = async ()=> {
     try {
 
       // await api.GetAllProducts()
-    // await api.GetProductById('781172393')
+     //await api.GetProductById('781172393')
     // await api.GetProductPhotos('781172393')
     // // await api.GetProductPhotosLinks('37878413')
     // //await api.GetProductVariationsById('37878413')
@@ -53,7 +53,7 @@ main = async ()=> {
     //const obj={id:791359794, product_property_group_id:38187}
     //await UpdateProductProperties(obj)
     if(RUNTESTS)await tests.Basics();
-    await ImportAndCreateFromFile('./importfiler/belts1.csv')
+    await ImportAndCreateFromFile('./importfiler/nov.csv')
     
     console.log('dsd')
 
@@ -62,6 +62,7 @@ main = async ()=> {
     console.log("entering catch block");
     console.log(e);
     console.log(e.response.data);
+    console.log(e.response.data.developermessage);
     console.log("leaving catch block");
   }
     
@@ -157,6 +158,13 @@ main = async ()=> {
       }
     }
     
+
+    
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
   
 
   ImportAndCreateFromFile = async (file) =>{
@@ -174,41 +182,65 @@ main = async ()=> {
       
       products[n].importobj = importproducts[n]
       let categories  = products[n].importobj.productobj.category_id.split(";");
+
+      //TEMP  update all
+
+      api.language = "nl";
+      await api.GetProductByProductNumber(products[n].productobj.productnumber)
+      products[n].id = api.productobj.id
+      // await api.SetField(products[n].id,{"purchaseprice":products[n].productobj.purchaseprice})
+     // await api.SetField(products[n].id,{"description":products[n].productobj.description})
+      await api.SetField(products[n].id,{"description":products[n].productobj.description})
+      await UpdateExtraLanguage(products[n])
+      console.log(products[n].productobj.productnumber + ' done')
+
+
       //CREATE
       api.language = "nl";
-      await api.CreateProduct(products[n].productobj)
-      products[n].id = api.productid;
-      products[n].shopobj = api.productobj;
-      products[n].SetProductImportObj(importproducts[n]);
+      
+      
+      
+      await api.GetProductByProductNumber(products[n].productobj.productnumber)
+      products[n].id = api.productobj.id
+      await UpdateComboValues(products[n])
+      console.log(products[n].productobj.productnumber + ' done!')
+      await sleep(10000)
+
+      // await api.CreateProduct(products[n].productobj)
+      // products[n].id = api.productid;
+      // products[n].shopobj = api.productobj;
+      // products[n].SetProductImportObj(importproducts[n]);
 
       
-      await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
-      //await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
-      let picslist = photoutils.GetPicsList();
-      for(let y in picslist){
-        await api.CreatePhoto(products[n].id, picslist[y])
-      }
+      // await photoutils.CreatePicsListFromPattern(products[n].importobj.productobj.pictures)
+      // //await photoutils.CreatePicsListFromFileList(products[n].importobj.productobj.pictures)
+      // let picslist = photoutils.GetPicsList();
+      // for(let y in picslist){
+      //   await api.CreatePhoto(products[n].id, picslist[y])
+      // }
          
     
      
 
       //SET
       
-      for (let x in categories){
-        await api.SetProductCategory({"position": parseInt(x),"product_id": products[n].id, "category_id": parseInt(categories[x])});
-      }
+      // for (let x in categories){
+      //   await api.SetProductCategory({"position": parseInt(x),"product_id": products[n].id, "category_id": parseInt(categories[x])});
+      // }
       
       
       
-      await UpdateProductAttributes(products[n])
+      // await UpdateProductAttributes(products[n])
 
       //UPDATE
 
-      await UpdateComboValues(products[n])
+      // await UpdateComboValues(products[n])
 
-      await UpdateProductProperties(products[n])
+      // await UpdateProductProperties(products[n])
 
-      await UpdateExtraLanguage(products[n])
+      // await UpdateExtraLanguage(products[n])
+
+      // await api.SetActiveStatus(products[n].id,true)
 
     }
 

@@ -131,6 +131,16 @@ class Api{
     await this.DoRequest();
   }
 
+  GetProductByProductNumber= async (productnumber) =>{
+    this._responseFunction=async (data)=>{
+      fs.writeFileSync(this.filepath + 'products'+this.currentId+'.json', JSON.stringify(data));
+      this.productobj=data.items[0];
+      this.id=data.items[0].id
+    };
+    this.SetupCall('/api/rest/v1/products/?productnumber=' + productnumber,'GET')
+    await this.DoRequest();
+  }
+
   GetProductPhotos = async (id) =>{
     this.currentId = id;
     this._responseFunction=(data)=>{
@@ -363,6 +373,27 @@ DeleteProduct = async (id) =>{
 this.SetupCall('/api/rest/v1/products/'+this.currentId ,'DELETE')
 
 await this.DoDeleteRequest();
+}
+
+SetActiveStatus = async (id,setting) =>{
+  
+  this._responseFunction=async (data)=>{
+  if(debug)console.log(JSON.stringify(data));
+};
+const obj = {"active": setting};
+this.SetupCall('/api/rest/v1/products/' + id,'PATCH', obj)
+
+await this.DoPatchRequest();
+}
+
+SetField = async (id,obj) =>{
+  
+  this._responseFunction=async (data)=>{
+  if(debug)console.log(JSON.stringify(data));
+};
+this.SetupCall('/api/rest/v1/products/' + id,'PATCH', obj)
+
+await this.DoPatchRequest();
 }
 
 

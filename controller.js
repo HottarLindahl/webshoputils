@@ -115,6 +115,9 @@ class Controller{
                 if(ccvattribname === 'product_layout' || ccvattribname === 'stock'){
                     returnobj[ccvattribname] = parseInt(obj[csvattribname])
                 }
+                else if(ccvattribname === 'active'){
+                    returnobj[ccvattribname] = (obj[csvattribname].toLowerCase() === 'true');
+                }
                 else returnobj[ccvattribname] = obj[csvattribname];
             }
 
@@ -145,6 +148,9 @@ class Controller{
             if(obj[csvattribname] !== undefined){
                 if(ccvattribname === 'price' || ccvattribname === 'product_layout' || ccvattribname === 'stock'){
                     returnobj[ccvattribname] = parseInt(obj[csvattribname])
+                }
+                else if(ccvattribname === 'active'){
+                    returnobj[ccvattribname] = (obj[csvattribname].toLowerCase() === 'true');
                 }
                 else returnobj[ccvattribname] = obj[csvattribname];
             }
